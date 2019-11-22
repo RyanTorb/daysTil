@@ -1,0 +1,6 @@
+.env
+Gemfile.lock
+spec/tmp
+doc
+.ruby*
+pkg

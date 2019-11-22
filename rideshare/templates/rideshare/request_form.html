@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+{% extends 'rideshare/base.html' %}
+{% load crispy_forms_tags %}
+
+
+<body>
+	{% block content %} 
+	<div class = "container" style="margin-bottom: 50px;">
+		<h3 style="margin-top: 30px;"> Request A Ride </h3>
+		<br>
+		<form method="post" class="post-form">
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="row">
+					<div class="form-group col-md-6" style="width: 350px;">
+					  {{ form.start_location|as_crispy_field}}
+					</div>
+					<div class="form-group col-md-6" style="width: 350px;">
+						{{ form.end_location|as_crispy_field}}
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-6" style="width: 350px;">
+					  {{ form.depart_date|as_crispy_field}}
+					</div>
+					<div class="form-group col-md-6" style="width: 350px;">
+						{{ form.depart_time|as_crispy_field}}
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group" style="width: 700px; margin-left: 15px;">
+					  {{ form.desired_price|as_crispy_field}}
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group" style="width: 700px; margin-left: 15px;">
+					  {{ form.notes|as_crispy_field}}
+					</div>
+				</div>
+		  </div>
+		  <br>
+		  <div class="btn-group" role="group" aria-label="Basic example">
+			<button type="submit" class="btn btn-secondary submit_btn" action="{% url 'calendar' %}">
+				Submit</button>
+		  </div>
+		  <a href="/feed" style="color: #466289; margin-left: 15px;" class="cancel_btn"> 
+			Cancel </a>
+		</form>
+		
+	</div>
+	<br><br><br>
+	<style>
+		.btn-secondary{
+            background-color: #466289 !important; 
+            color: #ffffff !important;
+        }
+        .btn-secondary:hover{
+            background-color: #DBE8F9 !important;
+            color: #000 !important;
+        }
+		.form-group{
+          margin-bottom: 0px;
+        }
+	</style>
+	
+	
+	
+<!-- 	
+	<div class = "post_buttons">
+			<div class = "detail_btn">
+				<button class='btn btn-md btn-success pull-right' type="button"
+					style="background-color:#ffffff; color: #466289; border-color: #466289;"
+					>More Details</button>
+			</div>
+			<div class = "ride_btn">
+				<button class='btn btn-md btn-success pull-right btn_hov' type="button"
+					style="background-color:#ffffff; color: #466289; border-color: #466289"
+					>Create Ride</button>
+			</div> -->
+    {% endblock %}
+</body>

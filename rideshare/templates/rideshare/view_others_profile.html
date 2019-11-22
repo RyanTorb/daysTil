@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+{% extends 'rideshare/base.html' %}
+{% load staticfiles %}
+
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+
+<body>
+	{% block content %}
+    {% load staticfiles %}
+    <div class="prof_container">
+        <img class = "logo" src="{% static "rideshare/profpic.png" %}" alt="profile picture"/>
+	    <div class = "info">
+            <h2> {{ authed.User.first_name}} {{ authed.User.last_name }}</h2>
+            <p1><i> Hails from {{ authed.User.profile.hometown }} </i></p1><br>
+	    {% if authed.User.profile.phone_number != None %}
+	    <p1> <b>Primary Phone: </b>{{authed.User.profile.phone_number }} </p1><br>
+	    {% endif %}
+            <p1><b>Email: </b>{{ authed.User.email }} </p1><br>
+            <p1> <b>Preferred Payment:</b> {{ authed.User.profile.preferred_payment}} </p1><br><br>
+            <input type="button" class="btn btn-secondary submit_button" 
+		onclick=" window.open('https://mail.google.com/mail/u/0/#inbox?compose=new','_blank')" value="Email This User" 
+		style="background-color: #89A8D5; color: #ffffff;" />
+	    </div>
+    </div>
+	
+    <style>
+        .prof_container{
+            text-align: center;
+            float: left;
+        }
+        .logo{
+            width: 125px;
+            height: auto;
+            margin: 50px 0px 15px 0px;
+        }
+        .btn-secondary{
+            background-color: #466289 !important; 
+            color: #ffffff !important;
+        }
+        .btn-secondary:hover{
+            background-color: #DBE8F9 !important;
+            color: #627894 !important;
+        }
+    </style>
+
+    <div id="accordion">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" 
+              aria-expanded="true" aria-controls="collapseOne">
+                They Are Driving:
+              </button>
+              <img class="down_arrow btn-link collapsed" data-toggle="collapse" data-target="#collapseOne" 
+                aria-expanded="false" aria-controls="collapseOne"
+                src="{% static "rideshare/downarrow.png" %}" width="20">
+            </h5>
+          </div>
+          <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+            <div class="card-body">
+                {% for post in pesto %}
+                    <div class = "post">
+                        <div class = "start">
+                            <img class = "start_icon" src="{% static "rideshare/start.png" %}" alt="start_icon" width="30"/>
+                            <h6> <a href="#" style='color: #FA6121;'> {{ post.start_location }} </a></h6>
+                        </div>
+                        <div class = "end">
+                            <img class = "end_icon" src="{% static "rideshare/end.png" %}" alt="end_icon" width="55"/>
+                            <h6> <a href="#" style='color: #FA6121;'> {{ post.end_location }} </a></h6>
+                        </div>
+                        <div class = "time">
+                            <img class = "time_icon" src="{% static "rideshare/time.png" %}" alt="time_icon" width="30"/>
+                            <p class="top_date" style="font-size: 10px;">Depart Date: {{ post.depart_date }}</p>
+                            <p style="font-size: 10px;">Depart Time: {{ post.depart_time |linebreaksbr }}</p>
+                        </div>
+		                <div class = "post_buttons">
+                            <div class = "detail_btn">
+                                <button class='btn btn-md btn-secondary pull-right' type="button"
+                                    style="background-color:#ffffff !important; color: #466289 !important; 
+                                    border: solid 1px !important; border-color: #466289 !important; font-size: 13px;">
+                                    <a href="{% url 'cal_specs' post.id %}">More Details</a></button>
+                            </div>
+                        </div>
+                        <div class = 'auth_btn'>
+                        </div>                     
+                    </div>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" 
+                        data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        They Are Riding:
+                    </button>
+                    <img class="down_arrow btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" 
+                        aria-expanded="false" aria-controls="collapseTwo"
+                        src="{% static "rideshare/downarrow.png" %}" width="20">
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body">
+                    {% for signup in signups %} 
+                        <div class = "post">
+                            <div class = "post_signup" style="margin-top: -30px;">
+                            <div class = "start">
+                                <img class = "start_icon" src="{% static "rideshare/start.png" %}" alt="start_icon" width="30"/>
+                                <h6> <a href="#" style='color: #FA6121;'> {{ signup.offer.start_location }} </a></h6>
+                            </div>
+                            <div class = "end">
+                                <img class = "end_icon" src="{% static "rideshare/end.png" %}" alt="end_icon" width="55"/>
+                                <h6> <a href="#" style='color: #FA6121;'> {{ signup.offer.end_location }} </a></h6>
+                            </div>
+                            <div class = "time">
+                                <img class = "time_icon" src="{% static "rideshare/time.png" %}" alt="time_icon" width="30"/>
+                                <p class="top_date" style="font-size: 10px;">Depart Date: {{ signup.offer.depart_date }}</p>
+                                <p style="font-size: 10px;">Depart Time: {{ signup.offer.depart_time |linebreaksbr }}</p>
+                            </div>
+                            <div class = "post_btns_for_signup" >
+				{% if user.id == signup.offer.author.id %} 
+                                <div class = "detail_btn">
+                                    <button class='btn btn-md btn-secondary pull-right' type="button"
+                                        style="background-color:#ffffff !important; color: #466289 !important; 
+                                        border: solid 1px !important; border-color: #466289 !important; font-size: 13px;
+					margin-top: 45px;">
+                                        <a href="{% url 'cal_specs' signup.offer.id %}">More Details</a></button>
+                                </div>
+				{% endif %}
+				{% if user.id != signup.offer.author.id %} 
+                                <div class = "detail_btn">
+                                    <button class='btn btn-md btn-secondary pull-right' type="button"
+                                        style="background-color:#ffffff !important; color: #466289 !important; 
+                                        border: solid 1px !important; border-color: #466289 !important; font-size: 13px;">
+                                        <a href="{% url 'cal_specs' signup.offer.id %}">More Details</a></button>
+                                </div>
+				{% endif %}
+				<div class='leave_btn'>
+				{% if user.id != signup.offer.author.id %}                                    
+					<button class='btn btn-md btn-secondary pull-right' type="button"
+                                        style="background-color:#ffffff !important; color: #466289 !important; 
+                                        border: solid 1px !important; border-color: #466289 !important; font-size: 13px;">
+                                	<a href="{% url 'signupoffer' signup.offer.id %}">Join Ride</a></button>
+				{% endif %}
+                        	</div>
+                            </div>  
+				{% if user.id == signup.offer.author.id %}
+                                <div class = 'auth_btn'>
+                            		<div class = "edit_btn">
+                                	<a href="{% url 'offer_edit' signup.offer.id %}"><i class="fa fa-edit"></i></a>
+                            	</div>
+                            	<div class = "ride_btn">
+                                	<a href="{% url 'offer_delete' signup.offer.id %}"><i class="fa fa-trash"></i></a>
+                            	</div>
+				</div>
+				{% endif %}
+ 
+                            </div>                 
+                        </div>
+                    {% endfor %}            
+                </div>
+            </div>
+        </div>
+        <div class="card">
+          <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" 
+                aria-expanded="false" aria-controls="collapseThree">
+                They Are Requesting:
+              </button>
+              <img class="down_arrow btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" 
+                aria-expanded="false" aria-controls="collapseThree"
+                src="{% static "rideshare/downarrow.png" %}" width="20">
+            </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    {% for post in pasta %}
+                    <div class = "post">
+                            <div class = "start">
+                                <img class = "start_icon" src="{% static "rideshare/start.png" %}" alt="start_icon" width="30"/>
+                                <h6> <a href="#" style='color: #FA6121;'> {{ post.start_location }} </a></h6>
+                            </div>
+                            <div class = "end">
+                                <img class = "end_icon" src="{% static "rideshare/end.png" %}" alt="end_icon" width="55"/>
+                                <h6> <a href="#" style='color: #FA6121;'> {{ post.end_location }} </a></h6>
+                            </div>
+                            <div class = "time">
+                                <img class = "time_icon" src="{% static "rideshare/time.png" %}" alt="time_icon" width="30"/>
+                                <p class="top_date" style="font-size: 10px;">Depart Date: {{ post.depart_date }}</p>
+                                <p style="font-size: 10px;">Depart Time: {{ post.depart_time |linebreaksbr }}</p>
+                            </div>
+                            <div class = "post_buttons">
+                                <div class = "detail_btn">
+                                    <button class='btn btn-md btn-success pull-right' type="button"
+                                        style="background-color:#ffffff; color: #466289; border: solid 1px !important; 
+                                        border-color: #466289 !important; font-size: 13px; margin-top: -15px; margin-bottom: 5px;">
+					<a href="{% url 'feed_specs' post.id %}">More Details</a></button>
+                                </div>
+                        	<div class = "detail_btn">
+                                    <button class='btn btn-md btn-success pull-right' type="button"
+                                        style="background-color:#ffffff; color: #466289; border: solid 1px !important; 
+                                        border-color: #466289 !important; font-size: 13px; margin-bottom: 0px; margin-top: 0px;">
+					<a href="{% url 'offer' %}">Create Ride</a></button>
+                                </div>
+                            </div>
+                            <div class = 'auth_btn'>
+                            </div>                     
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+      <style> 
+        @media (min-width: 768px){
+        .col-md-8 {
+                flex: none;
+                max-width: 100%;
+            }
+        }
+        .col-md-8{
+            width: 100%;
+        } 
+
+        #accordion {
+           margin: 50px 100px 100px 360px;
+           width: 60%;
+        }
+        .card{
+            border: none;
+        }
+        .card-header{
+            background-color: #FFF;
+        }
+        .card-body{
+            padding-bottom: 0px;
+        }
+        .btn-link{
+            color: #466289;
+        }
+        .down_arrow{
+            float: right;
+            margin-top: 15px;
+            margin-right: 10px;
+        }
+        .post{
+            width: 100%;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 9px #A0AEC1;
+            height: 120px;
+        }
+        .post a{
+            color: #466289;
+        }
+        .post:hover{
+             box-shadow: 0 0px 12px #FFB739;
+        }
+        .start{
+            display: block;
+            margin-right: 20px;
+            width: 140px;
+        }
+        .start h2{
+            margin-top: 0px;
+        }
+        .end{
+            display: block;
+            width: 140px;
+        }
+        .end h2{
+            margin-top: 0px;
+        }
+        .time{
+            display: block;
+            margin-left: 10px;
+            width: 125px;
+        }
+        .top_date{
+            margin: 0px 0px 0px 0px;
+        }
+        .ride_btn{
+            margin-top: 0px;
+	    margin-bottom: 0px;
+        }
+        .btn-md{
+	    display: run-in;
+            width: 100px;
+            margin-left: 10px;
+	    margin-top: 10px;
+        }
+	.detail_btn{
+	    margin-top: 25px;
+	}
+
+        .post_buttons{
+            margin-left: -5px;
+        }
+        .start, .time, .end, .post_buttons, .auth_btn, .post_btns_for_signup{
+            display: inline-block;
+        }
+        .post_btns_for_signup{
+            padding:0px;  
+        }
+        .post_btns_for_signup.btn-secondary{
+            margin-top: 0px;
+        }
+        .auth_btn{
+            position: absolute; 
+            display: inline-block;
+            margin-left: 10px;
+            margin-top: 15px;
+            padding: 3px;
+        }
+        .edit_btn{
+            margin-bottom: 3px;
+        }
+        .fa{
+            color: #A0AEC1;
+        }
+        .fa-edit:hover, .fa-trash:hover {
+            color: #FFB739;
+        }
+    </style>
+    {% endblock content %}
+
+</body>
