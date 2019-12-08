@@ -1,0 +1,13 @@
+Hi {{ name }}!
+<br>You are {{ position }} in the queue.
+<br>There are {{ sum }} rooms left.<br>
+{% if position == 1 %}
+<br>
+<button class='btn btn-md btn-success pull-right' type="button"
+style="background-color:#89cff0; color: #000000; border: solid 1px !important; 
+border-color: #89cff0 !important; font-size: 13px;"><a href="{% url 'select' %}">Select Your Room</a></button>
+{% endif %}
+{% if position != 1 %}
+<br><br>
+You will be able to select your room once those in front of you have completed their selections.
+{% endif %}

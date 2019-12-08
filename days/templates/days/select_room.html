@@ -1,0 +1,9 @@
+{% for room in ops %}
+{{ room.room_choice }}
+<br><br>
+<button class='btn btn-md btn-success pull-right' type="button"
+style="background-color:#89cff0; color: #000000; border: solid 1px !important; 
+border-color: #89cff0 !important; font-size: 13px;">
+<a href="{% url 'delete' room.id %}">Select This Room</a></button>
+<br><br><br>
+{% endfor %}
