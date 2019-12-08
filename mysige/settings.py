@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social_django',
     'crispy_forms',
 ]
 
@@ -110,21 +109,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/days/new_profile'
-SOCIAL_AUTH_GOOGLE_PLUS_KEY = '557578172045-k04kbk127u5cjsom2snua17n27svvl8m.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_PLUS_SECRET = 'I_0GK0dfV2XA3equJelzc8FI'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/days/index'
-SOCIAL_AUTH_LOGOUT_REDIRECT_URL = './'
-SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = [
-'https://www.googleapis.com/auth/userinfo.email',
-]
-
-SOCIAL_AUTH_GOOGLE_EXTRA_DATA = ['first_name', 'last_name']
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'social_core.backends.google.GooglePlusAuth',
 )
 
 # Internationalization
