@@ -1,6 +1,35 @@
+{% load staticfiles %}
 {% for room in ops %}
-{{ room.room_choice }}
+{{ room.room_choice }}:
 <br><br>
+{% if room.room_choice == "Ryan's Current Room" %}
+<img class = "logo" src="{% static "days/Ryan.jpg" %}" alt="Logo" width="250"/>
+<br><br>
+{% endif %}
+{% if room.room_choice == "Trevor's Current Room" %}
+<img class = "logo" src="{% static "days/Trevor.jpg" %}" alt="Logo" width="250"/>
+<br><br>
+{% endif %}
+{% if room.room_choice == "Will's Current Room" %}
+<img class = "logo" src="{% static "days/Will.jpg" %}" alt="Logo" width="250"/>
+<br><br>
+{% endif %}
+{% if room.room_choice == "Owen's Current Room" %}
+<img class = "logo" src="{% static "days/Owen.jpg" %}" alt="Logo" width="250"/>
+<br><br>
+{% endif %}
+{% if room.room_choice == "Mike's Current Room" %}
+<img class = "logo" src="{% static "days/Mike.jpg" %}" alt="Logo" width="250"/>
+<br><br>
+{% endif %}
+{% if room.room_choice == "Jeremy's Current Room" %}
+<img class = "logo" src="{% static "days/Jeremy.jpg" %}" alt="Logo" width="250"/>
+<br><br>
+{% endif %}
+{% if room.room_choice == "Adam's Current Room" %}
+<img class = "logo" src="{% static "days/Adam.jpg" %}" alt="Logo" width="250"/>
+<br><br>
+{% endif %}
 <button class='btn btn-md btn-success pull-right' type="button"
 style="background-color:#89cff0; color: #000000; border: solid 1px !important; 
 border-color: #89cff0 !important; font-size: 13px;">
